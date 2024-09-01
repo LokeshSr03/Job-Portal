@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema({
     unique: true,
     required: true,
   },
-  number: {
+  phone: {
     type: Number,
     required: true,
   },
@@ -22,15 +22,16 @@ const userSchema = mongoose.Schema({
   isAdmin: {
     type: Boolean,
     required: true,
+    default: false,
   },
 });
 
-userSchema.methods.matchPassword = async (enteredPassword) => {
+userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-userSchema.pre("save", async (next) => {
-  if (!this.isModified(password)) {
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
     next();
   }
 

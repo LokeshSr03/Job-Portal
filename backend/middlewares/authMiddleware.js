@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import asynchandler from "express-async-handler";
 import User from "../models/userModel.js";
 
-export const protect = asynchandler(async () => {
+export const protect = asynchandler(async (req, res, next) => {
   let token;
   if (
     req.headers.authorization &&
@@ -10,13 +10,13 @@ export const protect = asynchandler(async () => {
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
-      const decoded = jwt.verify(token, process.env.JWT);
-      req.user = await User.findById(decoded._id).select("-password");
+      const decoded = jwt.verify(token, process.env.JWT).select("-password");
+      req.user = await User.findById(decoded._id);
       next();
     } catch (error) {
-      throw new Error("Not Authorized , token failde", error.message);
+      throw new Error("token is not authorized");
     }
   } else {
-    throw new Error("Token not found");
+    throw new Error("token not found");
   }
 });
