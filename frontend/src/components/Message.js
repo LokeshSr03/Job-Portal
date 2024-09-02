@@ -1,4 +1,4 @@
-import { Alert } from "@chakra-ui/react";
+import { Alert, Stack } from "@chakra-ui/react";
 
 const Message = ({ childern, type = "info" }) => {
   <Alert.Root status={type}>
