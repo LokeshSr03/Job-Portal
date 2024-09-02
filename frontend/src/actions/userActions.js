@@ -42,7 +42,7 @@ export const registerUser =
     }
   };
 
-const loginUser = (email, password) => async (dispatch) => {
+export const loginUser = (email, password) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
 
