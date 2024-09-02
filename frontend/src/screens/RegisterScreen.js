@@ -9,7 +9,6 @@ import {
   InputRightElement,
   Box,
   Heading,
-  Text,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
@@ -28,7 +27,7 @@ function RegisterScreen() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
-  const [message, setMessage] = useState(null);
+  const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
