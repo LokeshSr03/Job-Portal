@@ -9,12 +9,13 @@ import {
   InputRightElement,
   Box,
   Heading,
+  Text,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { registerUser } from "../actions/userActions";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function RegisterScreen() {
   const navigate = useNavigate();
@@ -136,6 +137,9 @@ function RegisterScreen() {
               </Button>
             </Stack>
           </form>
+          <Text mt="2">
+            Back to <Link to="/login">Login</Link>
+          </Text>
         </Box>
       )}
     </>

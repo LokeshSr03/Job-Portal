@@ -52,7 +52,7 @@ function LoginScreen() {
           textAlign="center"
         >
           <Heading mb="6">Login</Heading>
-          {error && <Message status="error" message={error} />}
+          {error && <Message status="error">{error}</Message>}
           <form onSubmit={handleSubmit}>
             <VStack spacing="4">
               <FormControl id="email" isRequired>
