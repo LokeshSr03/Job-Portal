@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FormControl,
   FormLabel,
@@ -8,6 +7,9 @@ import {
   Button,
   InputGroup,
   InputRightElement,
+  Box,
+  Heading,
+  Text,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
@@ -34,11 +36,13 @@ function RegisterScreen() {
       navigate("/");
     }
   }, [userInfo, navigate]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password !== cpassword) {
-      setMessage("Passwords don not match");
+      setMessage("Passwords do not match");
     } else {
+      setMessage(null); // Clear any previous messages
       dispatch(registerUser(name, email, phone, password));
     }
   };
@@ -46,15 +50,29 @@ function RegisterScreen() {
   const showToggle = () => {
     setShowPassword(!showPassword);
   };
+
   return (
     <>
       {loading ? (
         <Loader />
-      ) : error ? (
-        <Message type="error">{error}</Message>
       ) : (
-        <div>
+        <Box
+          maxW="md"
+          mx="auto"
+          mt="10"
+          p="8"
+          borderWidth="1px"
+          borderRadius="lg"
+          boxShadow="lg"
+          bg="white"
+        >
+          <Heading textAlign="center" mb="6">
+            Register
+          </Heading>
+
+          {error && <Message type="error">{error}</Message>}
           {message && <Message type="error">{message}</Message>}
+
           <form onSubmit={handleSubmit}>
             <Stack spacing={4}>
               <FormControl isRequired>
@@ -114,12 +132,12 @@ function RegisterScreen() {
                 />
               </FormControl>
 
-              <Button type="submit" colorScheme="blue">
+              <Button type="submit" colorScheme="blue" size="lg">
                 Register
               </Button>
             </Stack>
           </form>
-        </div>
+        </Box>
       )}
     </>
   );
