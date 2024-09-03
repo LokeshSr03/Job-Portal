@@ -32,7 +32,6 @@ export const registerUser =
         config
       );
       dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
-      localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
       dispatch({
         type: USER_REGISTER_FAIL,
@@ -59,11 +58,8 @@ export const verifyOtp =
         config
       );
 
-      dispatch({
-        type: OTP_VERIFY_SUCCESS,
-        payload: data,
-      });
-
+      dispatch({ type: OTP_VERIFY_SUCCESS, payload: data });
+      localStorage.setItem("userInfo", JSON.stringify(data));
       // Optionally store token or redirect after verification
     } catch (error) {
       dispatch({

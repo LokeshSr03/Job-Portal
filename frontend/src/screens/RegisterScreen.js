@@ -21,7 +21,7 @@ function RegisterScreen() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const register = useSelector((state) => state.register);
-  const { loading, error, userInfo } = register;
+  const { loading, error, userInfo, otpMessage } = register;
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -81,7 +81,9 @@ function RegisterScreen() {
           </Heading>
 
           {error && <Message type="error">{error}</Message>}
-          {message && <Message type="error">{message}</Message>}
+          {message && (
+            <Message type="error">{message || otpMessage.message}</Message>
+          )}
 
           {!isOtpSent ? (
             <form onSubmit={handleSubmit}>
