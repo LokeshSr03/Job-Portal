@@ -71,3 +71,8 @@ export const loginUser = (email, password) => async (dispatch) => {
     });
   }
 };
+
+export const logOut = () => async (dispatch) => {
+  localStorage.removeItem("userInfo");
+  dispatch({ type: USER_LOGIN_RESET });
+};
