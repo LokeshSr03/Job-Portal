@@ -81,9 +81,7 @@ function RegisterScreen() {
           </Heading>
 
           {error && <Message type="error">{error}</Message>}
-          {message && (
-            <Message type="error">{message || otpMessage.message}</Message>
-          )}
+          {message && <Message type="error">{message}</Message>}
 
           {!isOtpSent ? (
             <form onSubmit={handleSubmit}>
@@ -151,23 +149,27 @@ function RegisterScreen() {
               </Stack>
             </form>
           ) : (
-            <form onSubmit={otpSubmitHandler}>
-              <Stack spacing={4}>
-                <FormControl isRequired>
-                  <FormLabel>Enter OTP</FormLabel>
-                  <Input
-                    type="text"
-                    name="otp"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                  />
-                </FormControl>
+            <>
+              {message && <Message type="error">{otpMessage.message}</Message>}
 
-                <Button type="submit" colorScheme="blue" size="lg">
-                  Verify OTP
-                </Button>
-              </Stack>
-            </form>
+              <form onSubmit={otpSubmitHandler}>
+                <Stack spacing={4}>
+                  <FormControl isRequired>
+                    <FormLabel>Enter OTP</FormLabel>
+                    <Input
+                      type="text"
+                      name="otp"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                    />
+                  </FormControl>
+
+                  <Button type="submit" colorScheme="blue" size="lg">
+                    Verify OTP
+                  </Button>
+                </Stack>
+              </form>
+            </>
           )}
 
           <Text mt="2">
