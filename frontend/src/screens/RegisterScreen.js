@@ -14,7 +14,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { registerUser } from "../actions/userActions";
+import { registerUser, verifyOtp } from "../actions/userActions";
 import { useNavigate, Link } from "react-router-dom";
 
 function RegisterScreen() {
@@ -30,6 +30,8 @@ function RegisterScreen() {
   const [cpassword, setCpassword] = useState("");
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [otp, setOtp] = useState(""); // State for OTP
+  const [isOtpSent, setIsOtpSent] = useState(false); // State for OTP view
 
   useEffect(() => {
     if (userInfo) {
@@ -43,8 +45,16 @@ function RegisterScreen() {
       setMessage("Passwords do not match");
     } else {
       setMessage(null); // Clear any previous messages
+      // Dispatch registration action to send OTP
       dispatch(registerUser(name, email, phone, password));
+      setIsOtpSent(true); // Show OTP input after registration
     }
+  };
+
+  const otpSubmitHandler = (e) => {
+    e.preventDefault();
+    // Dispatch OTP verification action
+    dispatch(verifyOtp(name, email, phone, otp, password));
   };
 
   const showToggle = () => {
@@ -67,78 +77,107 @@ function RegisterScreen() {
           bg="white"
         >
           <Heading textAlign="center" mb="6">
-            Register
+            {isOtpSent ? "Verify OTP" : "Register"}
           </Heading>
 
           {error && <Message type="error">{error}</Message>}
           {message && <Message type="error">{message}</Message>}
 
-          <form onSubmit={handleSubmit}>
-            <Stack spacing={4}>
-              <FormControl isRequired>
-                <FormLabel>Name</FormLabel>
-                <Input
-                  type="text"
-                  name="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </FormControl>
-
-              <FormControl isRequired>
-                <FormLabel>Email</FormLabel>
-                <Input
-                  type="email"
-                  name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </FormControl>
-
-              <FormControl isRequired>
-                <FormLabel>Phone</FormLabel>
-                <Input
-                  type="tel"
-                  name="phone"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-              </FormControl>
-
-              <FormControl isRequired>
-                <FormLabel>Password</FormLabel>
-                <InputGroup>
+          {!isOtpSent ? (
+            <form onSubmit={handleSubmit}>
+              <Stack spacing={4}>
+                <FormControl isRequired>
+                  <FormLabel>Name</FormLabel>
                   <Input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    type="text"
+                    name="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
-                  <InputRightElement width="3rem">
-                    <Button h="1.75rem" size="sm" onClick={showToggle}>
-                      {showPassword ? "Hide" : "Show"}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-              </FormControl>
+                </FormControl>
 
-              <FormControl isRequired>
-                <FormLabel>Confirm Password</FormLabel>
-                <Input
-                  type="password"
-                  name="confirmPassword"
-                  value={cpassword}
-                  onChange={(e) => setCpassword(e.target.value)}
-                />
-              </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Email</FormLabel>
+                  <Input
+                    type="email"
+                    name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </FormControl>
 
-              <Button type="submit" colorScheme="blue" size="lg">
-                Register
-              </Button>
-            </Stack>
-          </form>
+                <FormControl isRequired>
+                  <FormLabel>Phone</FormLabel>
+                  <Input
+                    type="tel"
+                    name="phone"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                </FormControl>
+
+                <FormControl isRequired>
+                  <FormLabel>Password</FormLabel>
+                  <InputGroup>
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <InputRightElement width="3rem">
+                      <Button h="1.75rem" size="sm" onClick={showToggle}>
+                        {showPassword ? "Hide" : "Show"}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                </FormControl>
+
+                <FormControl isRequired>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <Input
+                    type="password"
+                    name="confirmPassword"
+                    value={cpassword}
+                    onChange={(e) => setCpassword(e.target.value)}
+                  />
+                </FormControl>
+
+                <Button type="submit" colorScheme="blue" size="lg">
+                  Register
+                </Button>
+              </Stack>
+            </form>
+          ) : (
+            <form onSubmit={otpSubmitHandler}>
+              <Stack spacing={4}>
+                <FormControl isRequired>
+                  <FormLabel>Enter OTP</FormLabel>
+                  <Input
+                    type="text"
+                    name="otp"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                  />
+                </FormControl>
+
+                <Button type="submit" colorScheme="blue" size="lg">
+                  Verify OTP
+                </Button>
+              </Stack>
+            </form>
+          )}
+
           <Text mt="2">
-            Back to <Link to="/login">Login</Link>
+            {isOtpSent ? (
+              <span>
+                Didn't receive OTP? <Link to="/resend-otp">Resend OTP</Link>
+              </span>
+            ) : (
+              <>
+                Back to <Link to="/login">Login</Link>
+              </>
+            )}
           </Text>
         </Box>
       )}

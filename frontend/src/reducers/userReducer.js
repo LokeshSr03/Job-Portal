@@ -6,6 +6,8 @@ import {
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_RESET,
+  OTP_VERIFY_SUCCESS,
+  OTP_VERIFY_FAIL,
 } from "../constants/userConstants";
 
 export const registerReducer = (state = {}, action) => {
@@ -18,6 +20,11 @@ export const registerReducer = (state = {}, action) => {
 
     case USER_REGISTER_FAIL:
       return { loading: false, error: action.payload };
+
+    case OTP_VERIFY_SUCCESS:
+      return { ...state, otpVerified: true, userInfo: action.payload };
+    case OTP_VERIFY_FAIL:
+      return { ...state, otpVerified: false, error: action.payload };
 
     default:
       return state;

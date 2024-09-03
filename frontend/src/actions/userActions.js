@@ -7,6 +7,8 @@ import {
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_RESET,
+  OTP_VERIFY_SUCCESS,
+  OTP_VERIFY_FAIL,
 } from "../constants/userConstants";
 
 export const registerUser =
@@ -42,6 +44,37 @@ export const registerUser =
     }
   };
 
+export const verifyOtp =
+  (name, email, phone, otp, password) => async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const { data } = await axios.post(
+        "/api/users/verifyotp",
+        { name, email, phone, otp, password },
+        config
+      );
+
+      dispatch({
+        type: OTP_VERIFY_SUCCESS,
+        payload: data,
+      });
+
+      // Optionally store token or redirect after verification
+    } catch (error) {
+      dispatch({
+        type: OTP_VERIFY_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 export const loginUser = (email, password) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
