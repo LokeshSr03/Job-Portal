@@ -47,10 +47,17 @@ function RegisterScreen() {
       setMessage(null); // Clear any previous messages
       // Dispatch registration action to send OTP
       dispatch(registerUser(name, email, phone, password));
-      setIsOtpSent(true); // Show OTP input after registration
     }
   };
-
+  useEffect(() => {
+    if (error) {
+      // If there's an error, show the error message and ensure OTP input is not shown
+      setIsOtpSent(false);
+    } else if (otpMessage && !error) {
+      // If there's no error and OTP message exists, show the OTP input
+      setIsOtpSent(true);
+    }
+  }, [error, otpMessage]);
   const otpSubmitHandler = (e) => {
     e.preventDefault();
     // Dispatch OTP verification action
