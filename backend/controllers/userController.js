@@ -103,8 +103,7 @@ export const loginUser = asyncHandler(async (req, res) => {
  *@access private
  */
 export const getUserProfile = asyncHandler(async (req, res) => {
-  const { _id } = req.user;
-  const user = await User.findById({ _id });
+  const user = await User.findById(req.user_id);
 
   if (user) {
     res.status(200).json({

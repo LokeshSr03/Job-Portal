@@ -20,7 +20,8 @@ function ProfileScreen() {
   // Fetch user profile from Redux store
   const userProfile = useSelector((state) => state.userProfile);
   const { loading, userDetails, error } = userProfile;
-
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   // Separate state for each field, initialized when userDetails is loaded
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -28,16 +29,17 @@ function ProfileScreen() {
   const [password, setPassword] = useState("password"); // Masked for security
 
   useEffect(() => {
-    if (!userDetails) {
+    if (!userInfo) {
       navigate("/login");
-    } else if (userDetails.name) {
-      setName(userDetails.name);
-      setEmail(userDetails.email);
-      setPhone(userDetails.phone);
     } else {
-      dispatch(getProfile());
+      if (userDetails && !userDetails.name) {
+        dispatch(getProfile());
+      } else {
+        setName(userDetails && userDetails.name);
+        setEmail(userDetails && userDetails.email);
+      }
     }
-  }, [userDetails, dispatch, navigate]);
+  }, [userDetails, userInfo, dispatch, navigate]);
 
   // Responsive padding and maxWidth based on screen size
   const padding = useBreakpointValue({ base: "4", md: "6", lg: "8" });
@@ -51,11 +53,7 @@ function ProfileScreen() {
     alert("Profile updated successfully!");
   };
 
-  return loading ? (
-    <Loader />
-  ) : error ? (
-    <Message type="error">{error}</Message>
-  ) : (
+  return (
     <Box
       maxW={maxW}
       mx="auto"
