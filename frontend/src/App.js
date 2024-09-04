@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RegisterScreen from "./screens/RegisterScreen";
-import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import Header from "./components/Header";
 import ProfileScreen from "./screens/ProfileScreen";
 import JobsScreen from "./screens/JobsScreen";
 import JobsFormScreen from "./screens/JobFromScreen";
 import JobsListScreen from "./screens/JobListScreen";
+import JobEditScreen from "./screens/JobEditScreen";
 function App() {
   return (
     <BrowserRouter>
@@ -18,7 +18,7 @@ function App() {
 
         <Route path="/register" element={<RegisterScreen />} />
         <Route path="/profile" element={<ProfileScreen />} />
-
+        <Route path="/admin/jobs/edit/:id" element={<JobEditScreen />} />
         <Route path="/home/jobform" element={<JobsFormScreen />} />
       </Routes>
     </BrowserRouter>

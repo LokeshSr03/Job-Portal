@@ -10,6 +10,8 @@ import {
   jobCreateReducer,
   jobDeleteReducer,
   jobListReducer,
+  jobDetailsReducer,
+  jobUpdateReducer,
 } from "./reducers/jobReducer";
 
 const reducers = combineReducers({
@@ -20,6 +22,8 @@ const reducers = combineReducers({
   jobList: jobListReducer,
   jobCreate: jobCreateReducer,
   jobDelete: jobDeleteReducer,
+  jobDetails: jobDetailsReducer,
+  jobUpdate: jobUpdateReducer,
 });
 
 const userInfoFromLocalStorage = localStorage.getItem("userInfo")

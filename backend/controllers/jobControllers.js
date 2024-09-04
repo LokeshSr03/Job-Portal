@@ -37,4 +37,17 @@ const deleteJob = asynchandler(async (req, res) => {
   res.status(200).json({ message: "Job deleted successfully" });
 });
 
-export { createJob, updateJob, deleteJob, getAllJobs };
+// @desc    Get a job by ID
+// @route   GET /api/jobs/:id
+// @access  Public
+const getJobDetails = asynchandler(async (req, res) => {
+  const job = await Job.findById(req.params.id);
+
+  if (!job) {
+    res.status(404).json({ message: "Job not found" });
+  } else {
+    res.json(job);
+  }
+});
+
+export { createJob, updateJob, deleteJob, getAllJobs, getJobDetails };

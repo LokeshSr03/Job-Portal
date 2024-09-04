@@ -5,6 +5,10 @@ import {
   JOB_DELETE_SUCCESS,
   JOB_LIST_FAIL,
   JOB_LIST_SUCCESS,
+  JOB_DETAILS_SUCCESS,
+  JOB_DETAILS_FAIL,
+  JOB_UPDATE_SUCCESS,
+  JOB_UPDATE_FAIL,
 } from "../constants/jobConstants";
 import axios from "axios";
 
@@ -43,6 +47,38 @@ export const deleteJob = (id) => async (dispatch) => {
     dispatch({
       type: JOB_DELETE_FAIL,
       payload: error.response?.data?.message || error.message,
+    });
+  }
+};
+
+// Fetch single job details
+export const getJobDetails = (id) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(`/api/jobs/${id}`);
+    dispatch({ type: JOB_DETAILS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: JOB_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+// Update job
+export const updateJob = (id, updatedJobData) => async (dispatch) => {
+  try {
+    const { data } = await axios.put(`/api/jobs/${id}`, updatedJobData);
+    dispatch({ type: JOB_UPDATE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: JOB_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     });
   }
 };
