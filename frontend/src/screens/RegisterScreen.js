@@ -47,6 +47,7 @@ function RegisterScreen() {
       setMessage(null); // Clear any previous messages
       // Dispatch registration action to send OTP
       dispatch(registerUser(name, email, phone, password));
+      setIsOtpSent(true);
     }
   };
   useEffect(() => {
@@ -182,7 +183,7 @@ function RegisterScreen() {
           <Text mt="2">
             {isOtpSent ? (
               <span>
-                Didn't receive OTP? <Link to="/resend-otp">Resend OTP</Link>
+                Back to <Link to="/register">Register</Link>
               </span>
             ) : (
               <>

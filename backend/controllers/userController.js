@@ -1,31 +1,9 @@
 import User from "../models/userModel.js";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
-import crypto from "crypto";
-import nodemailer from "nodemailer";
 import Otp from "../models/otp.js";
-
-const generateOtp = () => {
-  return crypto.randomInt(100000, 1000000).toString();
-};
-
-// Send OTP via email (or phone via SMS gateway)
-const sendOtpEmail = async (email, otp) => {
-  const transporter = nodemailer.createTransport({
-    service: "gmail", // or any other email service provider
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
-  await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to: email,
-    subject: "Your OTP Code",
-    text: `Your OTP is ${otp}. It will expire in 5 minutes.`,
-  });
-};
+import generateOtp from "../utils/generateOtp.js";
+import sendOtpEmail from "../utils/sendOtpMail.js";
 
 /**
  * @desc		Register new user
@@ -55,6 +33,11 @@ export const registerUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "OTP sent successfully. Please verify." });
 });
 
+/**
+ * @desc		verify new user
+ * @route		POST /api/users/
+ * @access	public
+ */
 export const verifyOtp = asyncHandler(async (req, res) => {
   const { name, email, phone, otp, password } = req.body;
   // Find OTP record
@@ -111,5 +94,27 @@ export const loginUser = asyncHandler(async (req, res) => {
   } else {
     res.status(401); // Unauthorized;
     throw new Error("Invalid email or password");
+  }
+});
+
+/**
+ * @desc get User Detail
+ * @route GET /api/users/profile
+ *@access private
+ */
+export const getUserProfile = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const user = await User.findById({ _id });
+
+  if (user) {
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    throw new Error("User Not found");
   }
 });
