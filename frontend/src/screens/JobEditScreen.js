@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Box,
   VStack,
@@ -10,14 +10,14 @@ import {
   Button,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { getJobDetails, updateJob } from "../actions/jobActions"; // Redux actions for getting and updating job
+import { getJobDetails, updateJob } from "../actions/jobActions"; // Redux actions
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
 function JobEditScreen() {
   const { id } = useParams(); // Get the job ID from the URL
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // State for job fields
   const [companyName, setCompanyName] = useState("");
@@ -39,23 +39,23 @@ function JobEditScreen() {
 
   useEffect(() => {
     if (successUpdate) {
-      navigate("/admin/jobs"); // Redirect to job listing page after a successful update
+      // Re-fetch job details after a successful update
+      dispatch(getJobDetails(id));
+    } else if (!job || job._id !== id) {
+      dispatch(getJobDetails(id)); // Fetch job details if not already loaded
     } else {
-      if (!job || job._id !== id) {
-        dispatch(getJobDetails(id)); // Fetch job details when the component loads
-      } else {
-        setCompanyName(job.companyName);
-        setPosition(job.position);
-        setContract(job.contract);
-        setLocation(job.location);
-      }
+      // Set job details in the state
+      setCompanyName(job.companyName);
+      setPosition(job.position);
+      setContract(job.contract);
+      setLocation(job.location);
     }
-  }, [dispatch, id, job, successUpdate, navigate]);
+  }, [dispatch, id, job, successUpdate]);
 
   // Handle form submission for job update
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateJob(id, { companyName, position, contract, location })); // Dispatch the update job action
+    dispatch(updateJob(id, { companyName, position, contract, location }));
   };
 
   // Responsive styling
