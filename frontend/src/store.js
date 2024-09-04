@@ -6,11 +6,20 @@ import {
   userLoginReducer,
   userProfileReducer,
 } from "./reducers/userReducer";
+import {
+  jobCreateReducer,
+  jobDeleteReducer,
+  jobListReducer,
+} from "./reducers/jobReducer";
 
 const reducers = combineReducers({
   register: registerReducer,
   userLogin: userLoginReducer,
   userProfile: userProfileReducer,
+
+  jobList: jobListReducer,
+  jobCreate: jobCreateReducer,
+  jobDelete: jobDeleteReducer,
 });
 
 const userInfoFromLocalStorage = localStorage.getItem("userInfo")
