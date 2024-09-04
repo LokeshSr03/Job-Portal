@@ -29,7 +29,7 @@ const Header = () => {
 
   const logoutHandler = () => {
     dispatch(logOut());
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -92,7 +92,7 @@ const Header = () => {
             </MenuList>
           </Menu>
         ) : (
-          <HeaderMenuItem url="/login" icon={HiUser}>
+          <HeaderMenuItem url="/" icon={HiUser}>
             Login
           </HeaderMenuItem>
         )}
