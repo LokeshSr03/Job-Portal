@@ -11,7 +11,7 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { HiOutlineMenuAlt3, HiShoppingBag, HiUser } from "react-icons/hi";
+import { HiOutlineMenuAlt3, HiUser } from "react-icons/hi";
 import { IoChevronDown } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
