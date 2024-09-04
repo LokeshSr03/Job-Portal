@@ -45,7 +45,7 @@ function LoginScreen() {
         <Box
           maxW="sm"
           mx="auto"
-          mt="100px"
+          mt="150px"
           p="6"
           boxShadow="lg"
           borderRadius="md"
@@ -81,9 +81,6 @@ function LoginScreen() {
             </VStack>
           </form>
 
-          <Text mt="4">
-            <Link to="/forgotpassword">Forgot Password?</Link>
-          </Text>
           <Text mt="2">
             New User? <Link to="/register">Register</Link>
           </Text>

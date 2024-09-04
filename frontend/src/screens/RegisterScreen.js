@@ -77,7 +77,7 @@ function RegisterScreen() {
         <Box
           maxW="md"
           mx="auto"
-          mt="10"
+          mt="20"
           p="8"
           borderWidth="1px"
           borderRadius="lg"
