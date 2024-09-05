@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Box, Image, Text, Button } from "@chakra-ui/react";
 import { applyForJob } from "../actions/jobActions";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // Import the image file from the src folder
 import jobImage from "../images/image.png";
@@ -10,6 +11,7 @@ import jobImage from "../images/image.png";
 const JobDetail = () => {
   const { jobId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Get the current user's login state (assuming user info is in userLogin)
   const { userInfo } = useSelector((state) => state.userLogin);
@@ -30,6 +32,7 @@ const JobDetail = () => {
     if (userInfo && userInfo._id) {
       // Use the user's ID from the login state
       dispatch(applyForJob(jobId, userInfo._id));
+      navigate("/appliedjobs");
     } else {
       alert("You need to be logged in to apply for a job");
     }
