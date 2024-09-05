@@ -54,15 +54,24 @@ const getJobDetails = asynchandler(async (req, res) => {
 //new
 
 const getJobsByFilter = asynchandler(async (req, res) => {
-  const { companyName, location, contract } = req.query;
-  const filter = {};
+  try {
+    const { companyName, location, contract } = req.query;
+    const filter = {};
 
-  if (companyName) filter.companyName = new RegExp(companyName, "i");
-  if (location) filter.location = new RegExp(location, "i");
-  if (contract) filter.contract = contract;
+    if (companyName) filter.companyName = new RegExp(companyName, "i");
+    if (location) filter.location = new RegExp(location, "i");
+    if (contract) filter.contract = contract;
 
-  const jobs = await Job.find(filter).populate("applicants", "name email");
-  res.json(jobs);
+    // Check what is being passed in the filter
+    console.log("Filter: ", filter);
+
+    const jobs = await Job.find(filter).populate("applicants", "name email");
+
+    res.json(jobs);
+  } catch (error) {
+    console.error("Error in getJobsByFilter: ", error); // Log the error
+    res.status(500).json({ message: error.message || "Server error" });
+  }
 });
 
 const applyForJob = asynchandler(async (req, res) => {

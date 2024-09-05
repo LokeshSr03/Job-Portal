@@ -7,6 +7,9 @@ import JobsScreen from "./screens/JobsScreen";
 import JobsFormScreen from "./screens/JobFromScreen";
 import JobsListScreen from "./screens/JobListScreen";
 import JobEditScreen from "./screens/JobEditScreen";
+import JobListByFilter from "./screens/JobListByFilter";
+import JobDetail from "./screens/JobDetail";
+import AppliedJobsPage from "./screens/AppliedJobsPage";
 function App() {
   return (
     <BrowserRouter>
@@ -14,12 +17,14 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginScreen />} />
         <Route path="/home" element={<JobsListScreen />} />
-        <Route path="/jobs" element={<JobsScreen />} />
-
         <Route path="/register" element={<RegisterScreen />} />
         <Route path="/profile" element={<ProfileScreen />} />
         <Route path="/admin/jobs/edit/:id" element={<JobEditScreen />} />
         <Route path="/home/jobform" element={<JobsFormScreen />} />
+
+        <Route path="/jobs" element={<JobListByFilter />} />
+        <Route path="/jobs/:jobId" element={<JobDetail />} />
+        <Route path="/applied-jobs" element={<AppliedJobsPage />} />
       </Routes>
     </BrowserRouter>
   );
