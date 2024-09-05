@@ -9,6 +9,15 @@ import {
   JOB_DETAILS_FAIL,
   JOB_UPDATE_SUCCESS,
   JOB_UPDATE_FAIL,
+  GET_JOBS_REQUEST,
+  GET_JOBS_SUCCESS,
+  GET_JOBS_FAIL,
+  APPLY_JOB_REQUEST,
+  APPLY_JOB_SUCCESS,
+  APPLY_JOB_FAIL,
+  GET_APPLIED_JOBS_REQUEST,
+  GET_APPLIED_JOBS_SUCCESS,
+  GET_APPLIED_JOBS_FAIL,
 } from "../constants/jobConstants";
 
 // Reducer to handle job creation errors
@@ -63,6 +72,47 @@ export const jobUpdateReducer = (state = {}, action) => {
     case JOB_UPDATE_SUCCESS:
       return { loading: false, success: true, job: action.payload };
     case JOB_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+// new
+
+export const jobListByFilterReducer = (state = { jobs: [] }, action) => {
+  switch (action.type) {
+    case GET_JOBS_REQUEST:
+      return { loading: true };
+    case GET_JOBS_SUCCESS:
+      return { loading: false, jobs: action.payload };
+    case GET_JOBS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const jobApplyReducer = (state = {}, action) => {
+  switch (action.type) {
+    case APPLY_JOB_REQUEST:
+      return { loading: true };
+    case APPLY_JOB_SUCCESS:
+      return { loading: false, success: true, message: action.payload };
+    case APPLY_JOB_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const appliedJobsReducer = (state = { appliedJobs: [] }, action) => {
+  switch (action.type) {
+    case GET_APPLIED_JOBS_REQUEST:
+      return { loading: true };
+    case GET_APPLIED_JOBS_SUCCESS:
+      return { loading: false, appliedJobs: action.payload };
+    case GET_APPLIED_JOBS_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
