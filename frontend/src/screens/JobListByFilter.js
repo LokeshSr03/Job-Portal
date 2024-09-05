@@ -74,8 +74,8 @@ const JobListByFilter = () => {
             <option value="part-time">Part-Time</option>
             <option value="contract">Contract</option>
           </Select>
-          <Button colorScheme="teal" onClick={handleFilterSubmit}>
-            Apply Filters
+          <Button colorScheme="teal" px="10" onClick={handleFilterSubmit}>
+            Apply
           </Button>
         </Stack>
       </Box>
