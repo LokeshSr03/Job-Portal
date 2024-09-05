@@ -106,14 +106,20 @@ export const jobApplyReducer = (state = {}, action) => {
   }
 };
 
-export const appliedJobsReducer = (state = { appliedJobs: [] }, action) => {
+const initialState = {
+  appliedJobs: [],
+  loading: false,
+  error: null,
+};
+
+export const appliedJobsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_APPLIED_JOBS_REQUEST:
-      return { loading: true };
+      return { ...state, loading: true };
     case GET_APPLIED_JOBS_SUCCESS:
-      return { loading: false, appliedJobs: action.payload };
+      return { ...state, loading: false, appliedJobs: action.payload };
     case GET_APPLIED_JOBS_FAIL:
-      return { loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }

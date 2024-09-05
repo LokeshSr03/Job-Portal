@@ -11,15 +11,15 @@ const AppliedJobsPage = () => {
 
   useEffect(() => {
     // Replace with actual user ID
-    const userId = "your-user-id";
+    const userId = "66d85b06bf45b1bded7701f2";
     dispatch(getAppliedJobs(userId));
   }, [dispatch]);
-
+  console.log({ appliedJobs, loading, error }); // Add this line to debug
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text color="red">{error}</Text>;
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={4} mt={20}>
       {appliedJobs.map((job) => (
         <Box
           key={job._id}
@@ -31,10 +31,10 @@ const AppliedJobsPage = () => {
           {/* Use Image component here */}
           <Box p="6">
             <Text fontWeight="bold" fontSize="xl">
-              {job.position}
+              Position : {job.position}
             </Text>
             <Text fontSize="sm" color="gray.600">
-              {job.companyName}
+              Company-Name : {job.companyName}
             </Text>
           </Box>
         </Box>

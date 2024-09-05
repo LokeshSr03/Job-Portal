@@ -3,7 +3,6 @@ import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
 import Header from "./components/Header";
 import ProfileScreen from "./screens/ProfileScreen";
-import JobsScreen from "./screens/JobsScreen";
 import JobsFormScreen from "./screens/JobFromScreen";
 import JobsListScreen from "./screens/JobListScreen";
 import JobEditScreen from "./screens/JobEditScreen";
@@ -24,7 +23,7 @@ function App() {
 
         <Route path="/jobs" element={<JobListByFilter />} />
         <Route path="/jobs/:jobId" element={<JobDetail />} />
-        <Route path="/applied-jobs" element={<AppliedJobsPage />} />
+        <Route path="/appliedjobs" element={<AppliedJobsPage />} />
       </Routes>
     </BrowserRouter>
   );

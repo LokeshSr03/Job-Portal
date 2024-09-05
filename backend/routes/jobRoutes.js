@@ -12,14 +12,14 @@ import {
 
 const router = express.Router();
 
-router.post("/jobs", createJob); // Create a new job
-router.get("/jobs", getAllJobs); // Get all jobs
-router.put("/jobs/:id", updateJob); // Update a job by ID
-router.delete("/jobs/:id", deleteJob); // Delete a job by ID
-router.route("/jobs/:id").get(getJobDetails);
+router.post("/", createJob); // Create a new job
+router.get("/", getAllJobs); // Get all jobs
+router.put("/:id", updateJob); // Update a job by ID
+router.delete("/:id", deleteJob); // Delete a job by ID
+router.route("/:id").get(getJobDetails);
 
-router.get("/jobs/filter", getJobsByFilter); // Get all jobs with filters
-router.post("/jobs/apply/:jobId", applyForJob); // Apply for a job
-router.get("/jobs/applied/:userId", getAppliedJobs); // Get jobs applied by a user
+router.get("/filter", getJobsByFilter); // Get all jobs with filters
+router.post("/apply/:jobId", applyForJob); // Apply for a job
+router.get("/applied/:userId", getAppliedJobs); // Get jobs applied by a user
 
 export default router;

@@ -111,11 +111,27 @@ export const applyForJob = (jobId, userId) => async (dispatch) => {
   try {
     dispatch({ type: APPLY_JOB_REQUEST });
 
-    const { data } = await axios.post(`/api/jobs/apply/${jobId}`, { userId });
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.post(
+      `/api/jobs/apply/${jobId}`,
+      { userId }, // Send the userId as part of the body
+      config
+    );
 
     dispatch({ type: APPLY_JOB_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: APPLY_JOB_FAIL, payload: error.response.data.message });
+    dispatch({
+      type: APPLY_JOB_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
   }
 };
 

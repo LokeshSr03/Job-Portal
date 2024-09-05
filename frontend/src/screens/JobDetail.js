@@ -10,7 +10,13 @@ import jobImage from "../images/image.png";
 const JobDetail = () => {
   const { jobId } = useParams();
   const dispatch = useDispatch();
+
+  // Get the current user's login state (assuming user info is in userLogin)
+  const { userInfo } = useSelector((state) => state.userLogin);
+
+  // Get jobs from jobList
   const { jobs, loading, error } = useSelector((state) => state.jobList);
+
   const [job, setJob] = useState(null);
 
   useEffect(() => {
@@ -21,8 +27,12 @@ const JobDetail = () => {
   }, [jobId, jobs, loading]);
 
   const handleApply = () => {
-    const userId = "your-user-id"; // Replace with actual user ID
-    dispatch(applyForJob(jobId, userId));
+    if (userInfo && userInfo._id) {
+      // Use the user's ID from the login state
+      dispatch(applyForJob(jobId, userInfo._id));
+    } else {
+      alert("You need to be logged in to apply for a job");
+    }
   };
 
   if (loading) return <Text>Loading...</Text>;
