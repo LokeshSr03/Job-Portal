@@ -29,6 +29,7 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    appliedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
   },
   {
     timestamps: true,

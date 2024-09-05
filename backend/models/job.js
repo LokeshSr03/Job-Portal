@@ -17,6 +17,9 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  image: { type: String }, // URL of the dummy image
+  description: { type: String },
+  applicants: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // Users who applied
   createdAt: {
     type: Date,
     default: Date.now,

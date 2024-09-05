@@ -1,5 +1,6 @@
 import Job from "../models/job.js";
 import asynchandler from "express-async-handler";
+import User from "../models/userModel.js";
 
 const createJob = asynchandler(async (req, res) => {
   const { companyName, position, contract, location } = req.body;
@@ -50,4 +51,57 @@ const getJobDetails = asynchandler(async (req, res) => {
   }
 });
 
-export { createJob, updateJob, deleteJob, getAllJobs, getJobDetails };
+//new
+
+const getJobsByFilter = asynchandler(async (req, res) => {
+  const { companyName, location, contract } = req.query;
+  const filter = {};
+
+  if (companyName) filter.companyName = new RegExp(companyName, "i");
+  if (location) filter.location = new RegExp(location, "i");
+  if (contract) filter.contract = contract;
+
+  const jobs = await Job.find(filter).populate("applicants", "name email");
+  res.json(jobs);
+});
+
+const applyForJob = asynchandler(async (req, res) => {
+  const { jobId } = req.params;
+  const { userId } = req.body; // userId should be passed in the request body
+
+  const job = await Job.findById(jobId);
+  const user = await User.findById(userId);
+
+  if (!job || !user)
+    return res.status(404).json({ message: "Job or User not found" });
+
+  if (job.applicants.includes(userId))
+    return res.status(400).json({ message: "User already applied" });
+
+  job.applicants.push(userId);
+  await job.save();
+
+  user.appliedJobs.push(jobId);
+  await user.save();
+
+  res.json({ message: "Applied successfully" });
+});
+
+const getAppliedJobs = asynchandler(async (req, res) => {
+  const { userId } = req.params;
+  const user = await User.findById(userId).populate("appliedJobs");
+  if (!user) return res.status(404).json({ message: "User not found" });
+
+  res.json(user.appliedJobs);
+});
+
+export {
+  createJob,
+  updateJob,
+  deleteJob,
+  getAllJobs,
+  getJobDetails,
+  getAppliedJobs,
+  getJobsByFilter,
+  applyForJob,
+};
