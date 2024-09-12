@@ -75,7 +75,22 @@ const Header = () => {
         width={{ base: "full", md: "auto" }}
         mt={{ base: "3", md: "0" }}
       >
-        {userInfo ? (
+        {userInfo && userInfo.isAdmin ? (
+          // Admin Menu
+          <Menu>
+            <MenuButton
+              as={Button}
+              rightIcon={<IoChevronDown />}
+              _hover={{ textDecor: "none", opacity: "0.7" }}
+            >
+              {userInfo.name}
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+            </MenuList>
+          </Menu>
+        ) : userInfo && !userInfo.isAdmin ? (
+          // Non-admin user menu
           <Menu>
             <MenuButton
               as={Button}
@@ -88,18 +103,17 @@ const Header = () => {
               <MenuItem as={RouterLink} to="/appliedjobs">
                 Applied Jobs
               </MenuItem>
-
               <MenuItem onClick={logoutHandler}>Logout</MenuItem>
             </MenuList>
           </Menu>
         ) : (
+          // Not logged in
           <HeaderMenuItem url="/" icon={HiUser}>
             Login
           </HeaderMenuItem>
         )}
 
-        {/* Admin Menu */}
-
+        {/* Admin-specific menu */}
         {userInfo && userInfo.isAdmin && (
           <Menu>
             <MenuButton

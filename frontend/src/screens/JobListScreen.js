@@ -43,7 +43,7 @@ const JobsListScreen = () => {
       ) : (
         <>
           {errorDelete && <Message status="error">{errorDelete}</Message>}
-          <Table variant="striped" colorScheme="teal">
+          <Table variant="striped" className="bg-gray-400">
             <Thead>
               <Tr>
                 <Th>Company</Th>
