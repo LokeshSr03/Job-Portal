@@ -28,13 +28,10 @@ function LoginScreen() {
 
   useEffect(() => {
     if (userInfo) {
-      // Check if the email domain is @alphaware.com for admin or @alphawarenext.com for regular users
-      if (userInfo.email.endsWith("@alphaware.com")) {
-        navigate("/home"); // Admin Home Screen
-      } else if (userInfo.email.endsWith("@alphawarenext.com")) {
-        navigate("/jobs"); // Regular User Jobs Screen
+      if (userInfo.isAdmin) {
+        navigate("/home");
       } else {
-        console.error("Invalid email domain");
+        navigate("/jobs");
       }
     }
   }, [userInfo, navigate]);

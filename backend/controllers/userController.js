@@ -45,28 +45,27 @@ export const verifyOtp = asyncHandler(async (req, res) => {
   if (!otpRecord || otpRecord.otp !== otp) {
     return res.status(400).json({ message: "Invalid OTP" });
   }
-  if (email.endsWith("@gmail.com")) {
-    return res
-      .status(400)
-      .json({ message: "Gmail accounts are not allowed for registration" });
-  }
+  // if (email.endsWith("@gmail.com")) {
+  //   return res
+  //     .status(400)
+  //     .json({ message: "Gmail accounts are not allowed for registration" });
+  // }
   // Determine if the user is an admin based on email domain
-  let isAdmin = false;
+  // let isAdmin = false;
 
-  if (email.endsWith("@alphaware.com")) {
-    isAdmin = true;
-  } else if (email.endsWith("@alphawarenext.com")) {
-    isAdmin = false;
-  } else {
-    return res.status(400).json({ message: "Invalid email domain" });
-  }
+  // if (email.endsWith("@alphaware.com")) {
+  //   isAdmin = true;
+  // } else if (email.endsWith("@alphawarenext.com")) {
+  //   isAdmin = false;
+  // } else {
+  //   return res.status(400).json({ message: "Invalid email domain" });
+  // }
 
   const user = await User.create({
     name,
     email,
     phone,
     password,
-    isAdmin,
     isVerified: true,
   });
 

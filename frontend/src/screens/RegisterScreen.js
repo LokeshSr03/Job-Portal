@@ -35,7 +35,7 @@ function RegisterScreen() {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/");
+      navigate("/jobs");
     }
   }, [userInfo, navigate]);
 
